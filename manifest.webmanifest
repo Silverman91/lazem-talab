@@ -1,0 +1,14 @@
+{
+  "name": "لازم طلب",
+  "short_name": "لازم طلب",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": ".",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#17275c",
+  "theme_color": "#17275c",
+  "icons": [
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}
