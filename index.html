@@ -9,6 +9,21 @@
 <link rel="apple-touch-icon" href="icon-512.png">
 <link rel="icon" type="image/png" href="icon-512.png">
 <link rel="manifest" href="manifest.webmanifest">
+<meta name="description" content="انت لوحدك في الوردية، والطلبات نازلة عليك من كل حتة. احدف، اقفل الشيتات، واهرب من المدير. لعبة صيدلية المستشفى على الموبايل والكمبيوتر.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="لازم طلب">
+<meta property="og:title" content="لازم طلب 💊 لعبة صيدلية المستشفى">
+<meta property="og:description" content="انت لوحدك في الوردية، والطلبات نازلة عليك من كل حتة. احدف، اقفل الشيتات، واهرب من المدير.">
+<meta property="og:url" content="https://silverman91.github.io/lazem-talab/">
+<meta property="og:image" content="https://silverman91.github.io/lazem-talab/share.jpg">
+<meta property="og:image:secure_url" content="https://silverman91.github.io/lazem-talab/share.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="لازم طلب: صيدلي وتكويد وسيستم بيحدفوا أدوية وورق وأجهزة">
+<meta property="og:locale" content="ar_EG">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://silverman91.github.io/lazem-talab/share.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Lalezar&display=swap">
 <style>
@@ -1980,6 +1995,35 @@ function drawIcon(){
   g.save();g.translate(418,150);g.scale(3.4,3.4);drawProj({k:'xl',x:0,y:0,vx:1,vy:0,spin:.4,r:20},g);g.restore();
   g.save();g.translate(100,175);g.scale(2.8,2.8);drawProj({k:'kbd',x:0,y:0,vx:1,vy:0,spin:-.5,r:12},g);g.restore();
 }
-if(/[?&]icon\b/.test(location.search)){drawIcon();setTimeout(drawIcon,300)}else requestAnimationFrame(loop);
+// ?share renders the 1200x630 link-preview picture
+function drawShare(){
+  removeEventListener('resize',resize);
+  for(const id of ['menu','hud','dock','status'])$(id).hidden=true;
+  const W=1200,H=630;document.body.style.background='#17275c';cv.style.width=W+'px';cv.style.height=H+'px';cv.width=W;cv.height=H;
+  const g=cv.getContext('2d');g.setTransform(1,0,0,1,0,0);
+  g.fillStyle='#17275c';g.fillRect(0,0,W,H);
+  for(let y=0;y<10;y++)for(let x=0;x<19;x++)if((x+y)%2){g.fillStyle='rgba(255,255,255,.035)';g.fillRect(x*64,y*64,64,64)}
+  const rg=g.createRadialGradient(330,400,40,330,400,420);rg.addColorStop(0,'rgba(255,211,90,.45)');rg.addColorStop(1,'rgba(255,211,90,0)');g.fillStyle=rg;g.fillRect(0,0,W,H);
+  // the three players on gold rings
+  const put=(look,x,y,sc,flip)=>{const sp=Art.sprite(look,0,12);g.save();g.translate(x,y);if(flip)g.scale(-1,1);g.drawImage(sp,-24*sc,-68*sc,48*sc,76*sc);g.restore()};
+  const ring=(x,y,rx)=>{g.strokeStyle='#e8bb2a';g.lineWidth=9;g.beginPath();g.ellipse(x,y,rx,rx*.3,0,0,7);g.stroke()};
+  ring(150,560,80);ring(510,560,80);ring(330,585,105);
+  put(staffLook('archer',4,false,false),150,566,4.1,true);
+  put(staffLook('sword',4,false,false),510,566,4.1,false);
+  put(staffLook('mage',5,false,false),330,592,5.2,false);
+  const pr=(k,x,y,sc,sp)=>{g.save();g.translate(x,y);g.scale(sc,sc);drawProj({k,x:0,y:0,vx:1,vy:0,spin:sp,r:20},g);g.restore()};
+  pr('syr',95,170,3,.3);pr('folder',560,150,3,-.4);pr('xl',330,95,3.2,.2);pr('inj',470,250,2.6,.9);pr('kbd',40,370,2.4,-.6);
+  // the manager peeking in from the right
+  put(MGR_LOOK,1125,650,3.7,true);
+  // title block
+  g.textAlign='center';g.direction='rtl';
+  g.font='400 150px '+DISPLAY;g.lineWidth=14;g.strokeStyle='#0b1433';g.strokeText('لازم طلب',800,235);g.fillStyle='#ffd35a';g.fillText('لازم طلب',800,235);
+  g.font='700 40px '+FONT;g.fillStyle='#fff';g.fillText('انت لوحدك في الوردية…',800,320);g.fillText('والطلبات نازلة من كل حتة',800,372);
+  const chip=(t,x,y,c)=>{g.font='700 30px '+FONT;const w=g.measureText(t).width+40;g.fillStyle=c;g.beginPath();g.roundRect(x-w/2,y-28,w,54,27);g.fill();g.fillStyle='#10162c';g.fillText(t,x,y+10)};
+  chip('صيدلي',950,450,'#ffd35a');chip('تكويد',800,450,'#9fd3ea');chip('سيستم',650,450,'#c9b3e6');
+  g.font='700 23px '+FONT;g.fillStyle='#b4bdd6';g.fillText('العب من المتصفح على الموبايل أو الكمبيوتر',830,535);
+}
+if(/[?&]share\b/.test(location.search)){drawShare();document.fonts&&document.fonts.ready.then(drawShare);setTimeout(drawShare,1500)}
+else if(/[?&]icon\b/.test(location.search)){drawIcon();setTimeout(drawIcon,300)}else requestAnimationFrame(loop);
 })();
 </script>
